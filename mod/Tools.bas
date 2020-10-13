@@ -46,18 +46,26 @@ Private Type MENUINFO
 End Type
 
 Public Declare Function InitCommonControls Lib "Comctl32.dll" () As Long
-Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal Hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
+Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 Private Declare Function FillRect Lib "user32.dll" (ByVal hdc As Long, ByRef lpRect As Rect, ByVal hBrush As Long) As Long
-Public Declare Function BitBlt Lib "gdi32.dll" (ByVal hDestDC As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal xSrc As Long, ByVal ySrc As Long, ByVal dwRop As Long) As Long
+Public Declare Function BitBlt Lib "gdi32.dll" (ByVal hDestDC As Long, ByVal x As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal xSrc As Long, ByVal ySrc As Long, ByVal dwRop As Long) As Long
 Public Declare Function CreatePatternBrush Lib "gdi32.dll" (ByVal hBitmap As Long) As Long
 Private Declare Function CreateSolidBrush Lib "gdi32.dll" (ByVal crColor As Long) As Long
-Public Declare Function TransparentBlt Lib "msimg32.dll" (ByVal hdc As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal xSrc As Long, ByVal ySrc As Long, ByVal nSrcWidth As Long, ByVal nSrcHeight As Long, ByVal crTransparent As Long) As Long
+Public Declare Function TransparentBlt Lib "msimg32.dll" (ByVal hdc As Long, ByVal x As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal xSrc As Long, ByVal ySrc As Long, ByVal nSrcWidth As Long, ByVal nSrcHeight As Long, ByVal crTransparent As Long) As Long
 Private Declare Function SetRect Lib "user32.dll" (ByRef lpRect As Rect, ByVal X1 As Long, ByVal Y1 As Long, ByVal X2 As Long, ByVal Y2 As Long) As Long
-Private Declare Function SendMessage Lib "user32.dll" Alias "SendMessageA" (ByVal Hwnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByRef lParam As Any) As Long
+Private Declare Function SendMessage Lib "user32.dll" Alias "SendMessageA" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByRef lParam As Any) As Long
 Private Declare Function SetMenuInfo Lib "user32.dll" (ByVal hmenu As Long, ByRef LPCMENUINFO As MENUINFO) As Long
-Private Declare Function DrawMenuBar Lib "user32.dll" (ByVal Hwnd As Long) As Long
+Private Declare Function DrawMenuBar Lib "user32.dll" (ByVal hwnd As Long) As Long
 Private Declare Function OleTranslateColor Lib "oleaut32.dll" (ByVal lOleColor As Long, ByVal lHPalette As Long, ByRef lColorRef As Long) As Long
-Private Declare Function GetMenu Lib "user32.dll" (ByVal Hwnd As Long) As Long
+Private Declare Function GetMenu Lib "user32.dll" (ByVal hwnd As Long) As Long
+
+Declare Function ShowWindowAsync& Lib "user32" (ByVal hwnd As Long, ByVal nCmdShow As Long)
+Declare Function IsIconic Lib "user32" (ByVal hwnd As Long) As Long
+Declare Function BringWindowToTop Lib "user32" (ByVal hwnd As Long) As Long
+Declare Function SetForegroundWindow Lib "user32" (ByVal hwnd As Long) As Long
+Private Const SW_RESTORE As Long = 9
+Public Declare Sub SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long)
+Public Const HWND_TOPMOST = -1
 
 Private Const LVM_FIRST As Long = &H1000
 Private Const HDM_FIRST As Long = &H1200
@@ -88,6 +96,37 @@ Public SkinType As Integer
 Public Pass1 As String
 Public Pass2 As String
 
+Sub ShowPreviousInstance()
+    Dim h As Long
+    h = CLng(GetSetting(App.Title, "frmMain", "hWnd", 0))
+    If h <> 0 Then
+        If IsIconic(h) Then
+            ShowWindowAsync h, CLng(SW_RESTORE)
+            SetWindowTopMost frmmain
+            BringWindowToTop h
+            SetForegroundWindow h
+            frmmain.SetFocus
+            'SetWindowTopMost frmmain, False
+            AppActivate "BM Note Vault"
+        Else
+            SetWindowTopMost frmmain
+            BringWindowToTop h
+            SetForegroundWindow h
+            frmmain.SetFocus
+            AppActivate "BM Note Vault"
+            'SetWindowTopMost frmmain, False
+        End If
+    End If
+End Sub
+
+Sub SetWindowTopMost(f As Form, Optional onTop As Boolean = True)
+   Dim v As Long
+   v = IIf(onTop, HWND_TOPMOST, 0)
+   SetWindowPos f.hwnd, v, f.Left / 15, _
+        f.Top / 15, f.Width / 15, _
+        f.Height / 15, Empty
+End Sub
+
 Public Function IsAppOpen() As Boolean
     'Check if app is ready open
     If App.PrevInstance Then
@@ -99,7 +138,7 @@ End Function
 
 Public Sub OpenUrl(ByVal URL As String)
 Dim Ret As Long
-    Ret = ShellExecute(frmmain.Hwnd, "open", URL, vbNullString, vbNullString, 1)
+    Ret = ShellExecute(frmmain.hwnd, "open", URL, vbNullString, vbNullString, 1)
 End Sub
 
 Public Function FixPath(ByVal lPath As String) As String
@@ -167,7 +206,7 @@ Dim hHeader As Long
 Dim Retval As Long
 Dim LstHd As HD_ITEM
    
-   hHeader = SendMessage(LstV.Hwnd, LVM_GETHEADER, 0&, ByVal 0&)
+   hHeader = SendMessage(LstV.hwnd, LVM_GETHEADER, 0&, ByVal 0&)
    
    With LstHd
       .mask = HDI_IMAGE Or HDI_FORMAT
@@ -234,6 +273,7 @@ Public Sub SetFont(ByVal FontStr As String, TheObj As Object)
 Dim vFontInfo As Variant
 On Error Resume Next
 
+
     'Split up the font info
     vFontInfo = Split(FontStr, ",")
     
@@ -283,8 +323,8 @@ Public Sub LoadConfig()
     mConfig.NoteInfo = Val(GetSetting("NoteVault", "Config", "NoteInfo", "0"))
     mConfig.StatusBar = Val(GetSetting("NoteVault", "Config", "StatusBar", "0"))
     mConfig.NotesBar = Val(GetSetting("NoteVault", "Config", "NotesBar", "0"))
-    mConfig.GroupFont = GetSetting("NoteVault", "Config", "GroupFont", "Arial,8,0,0,0,0,0")
-    mConfig.RecordFont = GetSetting("NoteVault", "Config", "RecordFont", "Arial,8,0,0,0,0")
+    mConfig.GroupFont = GetSetting("NoteVault", "Config", "GroupFont", "Courier,12,0,0,0,0,0")
+    mConfig.RecordFont = GetSetting("NoteVault", "Config", "RecordFont", "Courier,12,0,0,0,0")
     mConfig.Skin = GetSetting("NoteVault", "Config", "Skin", "0")
 End Sub
 
@@ -298,3 +338,27 @@ Public Sub Saveconfig()
     Call SaveSetting("NoteVault", "Config", "RecordFont", mConfig.RecordFont)
     Call SaveSetting("NoteVault", "Config", "Skin", mConfig.Skin)
 End Sub
+
+Sub FormPos(fform As Object, Optional andSize As Boolean = False, Optional save_mode As Boolean = False)
+    
+    On Error Resume Next
+    
+    Dim f, sz, i, ff, def
+    f = Split(",Left,Top,Height,Width", ",")
+    
+    If fform.WindowState = vbMinimized Then Exit Sub
+    If andSize = False Then sz = 2 Else sz = 4
+    
+    For i = 1 To sz
+        If save_mode Then
+            ff = CallByName(fform, f(i), VbGet)
+            SaveSetting App.EXEName, fform.Name & ".FormPos", f(i), ff
+        Else
+            def = CallByName(fform, f(i), VbGet)
+            ff = GetSetting(App.EXEName, fform.Name & ".FormPos", f(i), def)
+            CallByName fform, f(i), VbLet, ff
+        End If
+    Next
+    
+End Sub
+

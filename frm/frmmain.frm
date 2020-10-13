@@ -1,7 +1,7 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "richtx32.ocx"
 Begin VB.Form frmmain 
    BackColor       =   &H00FFDBBF&
    Caption         =   "BM Note Vault"
@@ -28,6 +28,15 @@ Begin VB.Form frmmain
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       TextRTF         =   $"frmmain.frx":5C1A
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Courier"
+         Size            =   12
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin VB.PictureBox pGrip2 
       AutoRedraw      =   -1  'True
@@ -35,7 +44,7 @@ Begin VB.Form frmmain
       BorderStyle     =   0  'None
       Height          =   165
       Left            =   6030
-      Picture         =   "frmmain.frx":5C9C
+      Picture         =   "frmmain.frx":5C96
       ScaleHeight     =   11
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   11
@@ -69,7 +78,7 @@ Begin VB.Form frmmain
       BorderStyle     =   0  'None
       Height          =   240
       Left            =   405
-      Picture         =   "frmmain.frx":5E6A
+      Picture         =   "frmmain.frx":5E64
       ScaleHeight     =   240
       ScaleWidth      =   5760
       TabIndex        =   12
@@ -105,11 +114,11 @@ Begin VB.Form frmmain
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   2
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmmain.frx":A6AC
+            Picture         =   "frmmain.frx":A6A6
             Key             =   ""
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmmain.frx":A75E
+            Picture         =   "frmmain.frx":A758
             Key             =   ""
          EndProperty
       EndProperty
@@ -120,7 +129,7 @@ Begin VB.Form frmmain
       BorderStyle     =   0  'None
       Height          =   165
       Left            =   6015
-      Picture         =   "frmmain.frx":A810
+      Picture         =   "frmmain.frx":A80A
       ScaleHeight     =   11
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   11
@@ -184,7 +193,7 @@ Begin VB.Form frmmain
       Begin VB.Image imgInfo 
          Height          =   240
          Left            =   60
-         Picture         =   "frmmain.frx":A9DE
+         Picture         =   "frmmain.frx":A9D8
          Top             =   75
          Visible         =   0   'False
          Width           =   240
@@ -234,8 +243,8 @@ Begin VB.Form frmmain
       BorderStyle     =   1
       Appearance      =   1
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Arial"
-         Size            =   8.25
+         Name            =   "Courier"
+         Size            =   12
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -250,12 +259,12 @@ Begin VB.Form frmmain
       BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
          SubItemIndex    =   1
          Text            =   "Creation Time"
-         Object.Width           =   2540
+         Object.Width           =   4586
       EndProperty
       BeginProperty ColumnHeader(3) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
          SubItemIndex    =   2
          Text            =   "Last Updated"
-         Object.Width           =   2540
+         Object.Width           =   4586
       EndProperty
       BeginProperty ColumnHeader(4) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
          SubItemIndex    =   3
@@ -309,15 +318,15 @@ Begin VB.Form frmmain
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   3
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmmain.frx":AA60
+            Picture         =   "frmmain.frx":AA5A
             Key             =   ""
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmmain.frx":ADB2
+            Picture         =   "frmmain.frx":ADAC
             Key             =   ""
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmmain.frx":B104
+            Picture         =   "frmmain.frx":B0FE
             Key             =   ""
          EndProperty
       EndProperty
@@ -335,35 +344,35 @@ Begin VB.Form frmmain
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   8
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmmain.frx":B456
+            Picture         =   "frmmain.frx":B450
             Key             =   ""
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmmain.frx":B7A8
+            Picture         =   "frmmain.frx":B7A2
             Key             =   ""
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmmain.frx":BB3A
+            Picture         =   "frmmain.frx":BB34
             Key             =   ""
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmmain.frx":BE8C
+            Picture         =   "frmmain.frx":BE86
             Key             =   ""
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmmain.frx":C1DE
+            Picture         =   "frmmain.frx":C1D8
             Key             =   ""
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmmain.frx":C570
+            Picture         =   "frmmain.frx":C56A
             Key             =   ""
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmmain.frx":C8C2
+            Picture         =   "frmmain.frx":C8BC
             Key             =   ""
          EndProperty
          BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmmain.frx":CC14
+            Picture         =   "frmmain.frx":CC0E
             Key             =   ""
          EndProperty
       EndProperty
@@ -383,8 +392,8 @@ Begin VB.Form frmmain
       ImageList       =   "tvImg"
       Appearance      =   1
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Arial"
-         Size            =   8.25
+         Name            =   "Courier"
+         Size            =   12
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -498,7 +507,7 @@ Begin VB.Form frmmain
    Begin VB.Image imgTexture2 
       Height          =   390
       Left            =   5565
-      Picture         =   "frmmain.frx":CF66
+      Picture         =   "frmmain.frx":CF60
       Top             =   4215
       Visible         =   0   'False
       Width           =   360
@@ -506,7 +515,7 @@ Begin VB.Form frmmain
    Begin VB.Image imgMenu 
       Height          =   1665
       Left            =   6285
-      Picture         =   "frmmain.frx":D6F8
+      Picture         =   "frmmain.frx":D6F2
       Top             =   3495
       Visible         =   0   'False
       Width           =   1770
@@ -514,7 +523,7 @@ Begin VB.Form frmmain
    Begin VB.Image imgTexture1 
       Height          =   390
       Left            =   5550
-      Picture         =   "frmmain.frx":E26F
+      Picture         =   "frmmain.frx":E269
       Top             =   3720
       Visible         =   0   'False
       Width           =   360
@@ -973,10 +982,14 @@ Private Sub Form_Load()
 Dim ch As ColumnHeader
 
     If IsAppOpen Then
-        MsgBox "An Instance of BM Note Vault is already open.", vbInformation, App.ProductName
+        'MsgBox "An Instance of BM Note Vault is already open.", vbInformation, App.ProductName
+        ShowPreviousInstance
         Call Unload(frmmain)
         Exit Sub
     End If
+    
+    SaveSetting App.Title, "frmMain", "hWnd", CStr(Me.Hwnd)
+    FormPos Me, True, False
     
     'Disable buttons
     Toolbar1.Buttons(5).Enabled = False
@@ -1044,8 +1057,18 @@ Dim ch As ColumnHeader
     Call mnuNoteInfo_Click
     
     If Not FindFile(dbFile) Then
-        'Put error here
-        Exit Sub
+        'assume its first run copy blank.nvf over to notes.nvf
+        If LCase(Right(dbFile, 9)) = "notes.nvf" Then
+            If FindFile(App.Path & "\blank.nvf") Then
+                FileCopy App.Path & "\blank.nvf", App.Path & "\notes.nvf"
+            Else
+                 MsgBox "Initial blank database not found?", vbInformation
+                 Exit Sub
+            End If
+        Else
+            MsgBox "Databast not found: " & dbFile, vbInformation
+            Exit Sub
+        End If
     End If
     
     'Get file attr
@@ -1135,7 +1158,11 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
     Call CloseDB
+    On Error Resume Next
     
+    SaveSetting App.Title, "frmMain", "hWnd", 0
+    FormPos Me, True, True
+   
     'Restore file attr
     If FindFile(dbFile) Then
         Call SetAttr(dbFile, mFileAttr)
@@ -1146,22 +1173,22 @@ End Sub
 
 Private Sub LstV_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
 Static sSort As Integer
-Dim I As Long
+Dim i As Long
 
     sSort = (Not sSort)
     LstV.SortKey = ColumnHeader.Index - 1
     LstV.SortOrder = Abs(sSort)
     LstV.Sorted = True
     
-    For I = 0 To LstV.ColumnHeaders.Count - 1
-      If I = LstV.SortKey Then
+    For i = 0 To LstV.ColumnHeaders.Count - 1
+      If i = LstV.SortKey Then
             Call ShowHeaderIcon(LstV, LstV.SortKey, LstV.SortOrder, True)
         Else
-            Call ShowHeaderIcon(LstV, I, 0, False)
+            Call ShowHeaderIcon(LstV, i, 0, False)
       End If
    Next
    
-   I = 0
+   i = 0
 
 End Sub
 
@@ -1613,8 +1640,8 @@ End Sub
 
 Private Sub mnuUpdate_Click()
     'Check for updates
-    Call DmDownload1.DownloadFile("http://www.bm-it-software.co.uk/dload/dmvault.txt", _
-    FixPath(App.Path) & "update.txt", vbAsyncTypeByteArray)
+    'Call DmDownload1.DownloadFile("http://www.bm-it-software.co.uk/dload/dmvault.txt", _
+    'FixPath(App.Path) & "update.txt", vbAsyncTypeByteArray)
 End Sub
 
 Private Sub mnuVisit_Click()

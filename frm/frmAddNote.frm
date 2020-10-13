@@ -1,7 +1,7 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "richtx32.ocx"
 Begin VB.Form frmAddNote 
    ClientHeight    =   5460
    ClientLeft      =   60
@@ -164,12 +164,13 @@ Begin VB.Form frmAddNote
       _ExtentX        =   14023
       _ExtentY        =   4577
       _Version        =   393217
+      Enabled         =   -1  'True
       ScrollBars      =   2
       AutoVerbMenu    =   -1  'True
       TextRTF         =   $"frmAddNote.frx":058A
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "Arial"
-         Size            =   8.25
+         Name            =   "Courier"
+         Size            =   12
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -235,63 +236,63 @@ Begin VB.Form frmAddNote
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   15
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmAddNote.frx":0601
+            Picture         =   "frmAddNote.frx":0606
             Key             =   ""
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmAddNote.frx":0713
+            Picture         =   "frmAddNote.frx":0718
             Key             =   ""
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmAddNote.frx":0A65
+            Picture         =   "frmAddNote.frx":0A6A
             Key             =   ""
          EndProperty
          BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmAddNote.frx":0DB7
+            Picture         =   "frmAddNote.frx":0DBC
             Key             =   ""
          EndProperty
          BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmAddNote.frx":1109
+            Picture         =   "frmAddNote.frx":110E
             Key             =   ""
          EndProperty
          BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmAddNote.frx":145B
+            Picture         =   "frmAddNote.frx":1460
             Key             =   ""
          EndProperty
          BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmAddNote.frx":17AD
+            Picture         =   "frmAddNote.frx":17B2
             Key             =   ""
          EndProperty
          BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmAddNote.frx":1AFF
+            Picture         =   "frmAddNote.frx":1B04
             Key             =   ""
          EndProperty
          BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmAddNote.frx":1E51
+            Picture         =   "frmAddNote.frx":1E56
             Key             =   ""
          EndProperty
          BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmAddNote.frx":21A3
+            Picture         =   "frmAddNote.frx":21A8
             Key             =   ""
          EndProperty
          BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmAddNote.frx":24F5
+            Picture         =   "frmAddNote.frx":24FA
             Key             =   ""
          EndProperty
          BeginProperty ListImage12 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmAddNote.frx":2847
+            Picture         =   "frmAddNote.frx":284C
             Key             =   ""
          EndProperty
          BeginProperty ListImage13 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmAddNote.frx":2B99
+            Picture         =   "frmAddNote.frx":2B9E
             Key             =   ""
          EndProperty
          BeginProperty ListImage14 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmAddNote.frx":2EEB
+            Picture         =   "frmAddNote.frx":2EF0
             Key             =   ""
          EndProperty
          BeginProperty ListImage15 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmAddNote.frx":2FFD
+            Picture         =   "frmAddNote.frx":3002
             Key             =   ""
          EndProperty
       EndProperty
@@ -401,8 +402,8 @@ Begin VB.Form frmAddNote
    End
    Begin VB.TextBox txtTitle 
       BeginProperty Font 
-         Name            =   "Arial"
-         Size            =   8.25
+         Name            =   "Courier"
+         Size            =   12
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -410,7 +411,7 @@ Begin VB.Form frmAddNote
          Strikethrough   =   0   'False
       EndProperty
       Height          =   350
-      Left            =   150
+      Left            =   135
       TabIndex        =   1
       TabStop         =   0   'False
       Top             =   390
@@ -625,6 +626,8 @@ Private Sub Form_Load()
 Dim Idx As Integer
 Dim Count As Integer
 
+     FormPos Me, True, False
+   
     'Setup the editor
     Set TxtCls = New dTxtHelper
     TxtCls.SetEditor = txtNote
@@ -651,8 +654,8 @@ Dim Count As Integer
     Call cboSize.AddItem("48")
     Call cboSize.AddItem("72")
     'Set index
-    cboSize.ListIndex = 0
-    cboFont.ListIndex = FindInList(cboFont, "arial")
+    cboSize.ListIndex = FindInList(cboSize, "12")
+    cboFont.ListIndex = FindInList(cboFont, "Courier")
 
     'Set the combobox ImageList
     Set CboIcon.ImageList = frmmain.LstIcons
@@ -667,11 +670,12 @@ Dim Count As Integer
     cboPriority.AddItem "Normal"
     cboPriority.AddItem "Below Normal"
     cboPriority.AddItem "Low"
-    
+    cboPriority.ListIndex = FindInList(cboPriority, "Normal")
+     
     'Check if adding a note or editing
     If (mAddNote) Then
         frmAddNote.Caption = "New Note"
-        cboPriority.ListIndex = 0
+        'cboPriority.ListIndex = 0
         'Set icon index
         CboIcon.ComboItems(1).Selected = True
     Else
@@ -708,6 +712,7 @@ On Error Resume Next
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
+    FormPos Me, True, True
     Set frmAddNote = Nothing
 End Sub
 

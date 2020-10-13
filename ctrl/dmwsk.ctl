@@ -48,10 +48,6 @@ ConErr:
     RaiseEvent LastError(0, Err.Description, LocalFile)
 End Sub
 
-Private Sub Image1_Click(Index As Integer)
-
-End Sub
-
 Private Sub UserControl_AsyncReadComplete(AsyncProp As AsyncProperty)
 On Error Resume Next
     StillBusy = False
