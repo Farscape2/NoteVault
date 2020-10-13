@@ -1,0 +1,10 @@
+*.exp
+*.obj
+*.ncb
+*.pdb
+*.manifest
+*.idb
+*Log.htm
+*.suo
+*.user
+*.vbw
